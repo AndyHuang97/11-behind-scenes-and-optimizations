@@ -1,4 +1,4 @@
-import { useState, memo, useCallback, useMemo } from "react";
+import { useState, memo, useCallback, useMemo, useEffect } from "react";
 
 import IconButton from "../UI/IconButton.jsx";
 import MinusIcon from "../UI/Icons/MinusIcon.jsx";
@@ -43,6 +43,15 @@ const Counter = memo(function Counter({ initialCount }) {
   const [counterChanges, setCounterChanges] = useState([
     { value: initialCount, id: genereateRandomId() },
   ]);
+
+  // useState is executed only the first time for initialization, subsequent
+  // rerenders will not execute the function again
+  // So, one possible solution to reset the state is useEffect, but this is not
+  // optimal because it is executed after the component is rendered and triggers
+  // another re-render with the new state
+  // useEffect(() => {
+  //   setCounterChanges([{ value: initialCount, id: genereateRandomId() }]);
+  // });
 
   const currentCounter = counterChanges.reduce(
     (prevCounter, counterChange) => prevCounter + counterChange.value,
